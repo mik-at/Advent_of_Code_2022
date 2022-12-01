@@ -4,14 +4,14 @@ fn main() {
     if let Ok(input) = std::fs::read_to_string("./input.txt") {
         let lines = input.split("\n");
         for line in lines {
-                if line != "" {
-                    let newcalories: i32 = line.parse().unwrap();
-                    sum_calories += newcalories;
-                } else {
-                    calories_vector.insert(calories_vector.len(), sum_calories);
-                    //println!("{}", sum_calories);
-                    sum_calories = 0;
-                }
+            if line != "" {
+                let newcalories: i32 = line.parse().unwrap();
+                sum_calories += newcalories;
+            } else {
+                calories_vector.insert(calories_vector.len(), sum_calories);
+                //println!("{}", sum_calories);
+                sum_calories = 0;
+            }
         }
     }
 

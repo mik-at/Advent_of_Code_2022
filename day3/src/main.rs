@@ -1,34 +1,53 @@
 use std::collections::HashMap;
 
 fn main() {
-    let mut sum = 0;
-    let mut priorities: HashMap<char, i32> = HashMap::new();
+    let mut sump1 = 0;
+    let mut sump2 = 0;
+    let mut priorities: HashMap<&char, i32> = HashMap::new();
+    let mut occurrence: HashMap<&char, i32> = HashMap::new();
     let mut i = 1;
     let lowercase: Vec<char> = ('a'..='z').collect();
-    for char in lowercase {
-        priorities.insert(char, i);
+    let uppercase: Vec<char> = ('A'..='Z').collect();
+    let mut items: Vec<char> = Vec::new();
+    items.extend(lowercase);
+    items.extend(uppercase);
+    for item in &items {
+        priorities.insert(item, i);
+        occurrence.insert(item, 0);
         i += 1;
     }
-    let uppercase: Vec<char> = ('A'..='Z').collect();
-    for char in uppercase {
-        priorities.insert(char, i);
-        i += 1
-    }
     //println!("{:?}", priorities );
+    //if let Ok(input) = std::fs::read_to_string("./input_sample.txt") {
     if let Ok(input) = std::fs::read_to_string("./input.txt") {
-        let cargo = input.split("\n");
+        let cargo = input.lines();
         for rucksack in cargo {
             let (first, last) = rucksack.split_at(rucksack.len()/2);
             let first = first.chars();
             for item in first {
                 if last.contains(item) {
                     //println!("{item}");
-                    sum += priorities[&item];
+                    sump1 += priorities[&item];
                     break;
                 }
 
             }
         }
-    }
-    println!("Part1 result: {sum}")
+        let groups: Vec<&str> = input.split("\n").collect();
+        for j in 0..groups.len()+1 {
+            if j != 0 && j % 3 == 0 {
+                let group = [groups[j-3], groups[j-2], groups[j-1]];
+                //println!("{:?}", group);
+                for item in &items {
+                    if group[0].contains(*item) && group[1].contains(*item) && group[2].contains(*item) {
+                        sump2 += priorities[&item];
+                        //println!("Group: {:?}, Item: {}", group, item);
+                        break;
+                    }
+                }
+            }
+        }
+        //println!("{:?}", groups);
+    }   
+    println!("Part1 result: {}",sump1);
+    println!("Part1 result: {}",sump2);
 }

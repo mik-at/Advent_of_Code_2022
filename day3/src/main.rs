@@ -4,7 +4,6 @@ fn main() {
     let mut sump1 = 0;
     let mut sump2 = 0;
     let mut priorities: HashMap<&char, i32> = HashMap::new();
-    let mut occurrence: HashMap<&char, i32> = HashMap::new();
     let mut i = 1;
     let lowercase: Vec<char> = ('a'..='z').collect();
     let uppercase: Vec<char> = ('A'..='Z').collect();
@@ -13,7 +12,6 @@ fn main() {
     items.extend(uppercase);
     for item in &items {
         priorities.insert(item, i);
-        occurrence.insert(item, 0);
         i += 1;
     }
     //println!("{:?}", priorities );
@@ -33,6 +31,7 @@ fn main() {
             }
         }
         let groups: Vec<&str> = input.split("\n").collect();
+        //println!("{:?}", groups);
         for j in 0..groups.len()+1 {
             if j != 0 && j % 3 == 0 {
                 let group = [groups[j-3], groups[j-2], groups[j-1]];
@@ -46,7 +45,6 @@ fn main() {
                 }
             }
         }
-        //println!("{:?}", groups);
     }   
     println!("Part1 result: {}",sump1);
     println!("Part1 result: {}",sump2);

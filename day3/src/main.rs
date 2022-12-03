@@ -32,7 +32,7 @@ fn main() {
         }
         let groups: Vec<&str> = input.split("\n").collect();
         //println!("{:?}", groups);
-        for j in 0..groups.len()+1 {
+        for j in 0..=groups.len() {
             if j != 0 && j % 3 == 0 {
                 let group = [groups[j-3], groups[j-2], groups[j-1]];
                 //println!("{:?}", group);

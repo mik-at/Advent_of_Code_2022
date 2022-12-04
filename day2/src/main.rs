@@ -2,9 +2,12 @@ fn main() {
     // Part 1
     let mut my_score: i32 = 0;
     let mut opponent_score: i32 = 0;
-        if let Ok(input) = std::fs::read_to_string("./input.txt") {
+        if let Ok(input) = std::fs::read_to_string("./input") {
         let game = input.split("\n");
         for game_round in game {
+            if game_round == "" {
+                break;
+            }
             let hands: Vec<&str> = game_round.split(" ").collect();
             let mut my_hand = hands[1];
             let mut opponent_hand = hands[0];
@@ -57,21 +60,18 @@ fn main() {
                 my_score += 3;
                 opponent_score += 3;
             }
-            println!("--- Start Round ---");
-            println!("Opponent Hand: {}", opponent_hand);
-            println!("My Hand: {}", my_hand);
-            println!("My Score: {}", my_score);
-            println!("Opponent Score: {}", opponent_score);
-            println!("--- End Round ---");
         }
-        println!("Part1 Score: {}", my_score);
+        println!("Part1: {}", my_score);
     }
     // Part 2
     let mut my_score: i32 = 0;
-    let mut opponent_score: i32 = 0;
-        if let Ok(input) = std::fs::read_to_string("./input.txt") {
+    let mut _opponent_score: i32 = 0;
+        if let Ok(input) = std::fs::read_to_string("./input") {
         let game = input.split("\n");
         for game_round in game {
+            if game_round == "" {
+                break;
+            }
             let hands: Vec<&str> = game_round.split(" ").collect();
             let mut my_hand = hands[1];
             let mut opponent_hand = hands[0];
@@ -148,13 +148,7 @@ fn main() {
                 },
                 _ => {},
             };
-            println!("--- Start Round ---");
-            println!("Opponent Hand: {}", opponent_hand);
-            println!("My Hand: {}", my_hand);
-            println!("My Score: {}", my_score);
-            println!("Opponent Score: {}", opponent_score);
-            println!("--- End Round ---");
         }
-        println!("Part2 Score: {}", my_score);
+        println!("Part2: {}", my_score);
     }
 }

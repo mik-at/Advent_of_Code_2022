@@ -7,10 +7,13 @@ fn extract_area(area: &str) -> (i32, i32) {
 fn main() {
         let mut sump1 = 0;
         let mut sump2 = 0;
-        //if let Ok(input) = std::fs::read_to_string("./input_sample.txt") {
-        if let Ok(input) = std::fs::read_to_string("./input.txt") {
+        //if let Ok(input) = std::fs::read_to_string("./input_sample") {
+        if let Ok(input) = std::fs::read_to_string("./input") {
             let pairs = input.split("\n");
             for pair in pairs {
+                if pair == "" {
+                    break;
+                }
                 let mut pair = pair.split(",");
                 let (first, last) = (pair.next().unwrap(), pair.next().unwrap());
                 let (first_area_start, first_area_end) = extract_area(first);

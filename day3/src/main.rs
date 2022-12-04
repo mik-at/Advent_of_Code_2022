@@ -15,8 +15,8 @@ fn main() {
         i += 1;
     }
     //println!("{:?}", priorities );
-    //if let Ok(input) = std::fs::read_to_string("./input_sample.txt") {
-    if let Ok(input) = std::fs::read_to_string("./input.txt") {
+    //if let Ok(input) = std::fs::read_to_string("./input_sample") {
+    if let Ok(input) = std::fs::read_to_string("./input") {
         let cargo = input.lines();
         for rucksack in cargo {
             let (first, last) = rucksack.split_at(rucksack.len()/2);

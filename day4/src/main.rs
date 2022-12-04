@@ -5,7 +5,8 @@ fn extract_area(area: &str) -> (i32, i32) {
 }
 
 fn main() {
-        let mut sum = 0;
+        let mut sump1 = 0;
+        let mut sump2 = 0;
         //if let Ok(input) = std::fs::read_to_string("./input_sample.txt") {
         if let Ok(input) = std::fs::read_to_string("./input.txt") {
             let pairs = input.split("\n");
@@ -15,9 +16,17 @@ fn main() {
                 let (first_area_start, first_area_end) = extract_area(first);
                 let (last_area_start, last_area_end) = extract_area(last);
                 if (first_area_start <= last_area_start && first_area_end >= last_area_end) || (first_area_start >= last_area_start && first_area_end <= last_area_end) { //overlap found
-                    sum += 1;
+                    sump1 += 1;
+                }
+                let first_area = first_area_start..=first_area_end;
+                let last_area = last_area_start..=last_area_end;
+                if first_area.contains(&last_area_start) || first_area.contains(&last_area_end) { // partial overlap
+                    sump2 += 1;
+                } else if last_area.contains(&first_area_start) || last_area.contains(&first_area_end) { // partial overlap
+                    sump2 += 1;
                 }
             }
         }
-        println!("Part1: {}", sum);
+        println!("Part1: {}", sump1);
+        println!("Part2: {}", sump2);
 }

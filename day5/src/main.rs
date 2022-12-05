@@ -92,7 +92,6 @@ fn part2() {
                     let diff = i as usize;
                     to_stack.insert(to_stack.len() - diff, *from_stack.last().unwrap());
                     from_stack.remove(from_stack.len()-1);
-
                     stacks.insert(from, from_stack);
                     stacks.insert(to, to_stack);
                 }

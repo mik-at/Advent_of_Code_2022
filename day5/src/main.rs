@@ -10,10 +10,9 @@ fn part1() {
                 break;
             }
             let re = Regex::new(".(.)..?").unwrap();
-            let items: Vec<&str> = re.find_iter(line).map(|mat| mat.as_str()).collect();
+            let items: Vec<&str> = re.find_iter(line).map(|mat| mat.as_str().trim()).collect();
             let mut i = 1;
             for item in items {
-                let item = item.trim();
                 if item == "" {
                     i += 1
                 } else {
@@ -68,10 +67,9 @@ fn part2() {
                 break;
             }
             let re = Regex::new(".(.)..?").unwrap();
-            let items: Vec<&str> = re.find_iter(line).map(|mat| mat.as_str()).collect();
+            let items: Vec<&str> = re.find_iter(line).map(|mat| mat.as_str().trim()).collect();
             let mut i = 1;
             for item in items {
-                let item = item.trim();
                 if item == "" {
                     i += 1
                 } else {

@@ -1,4 +1,5 @@
 use std::{collections::HashMap, char};
+use regex::Regex;
 
 fn part1() {
     let mut stacks: HashMap<i32, Vec<char>> = HashMap::new();
@@ -8,13 +9,15 @@ fn part1() {
             if line.starts_with(" 1") {
                 break;
             }
-            let items = line.replace("    ", "[]").replace( " ", "").replace("][","|").replace("[","|").replace("]", "|");
-            let mut i = 0;
-            for item in items.split("|") {
+            let re = Regex::new(".(.)..?").unwrap();
+            let items: Vec<&str> = re.find_iter(line).map(|mat| mat.as_str()).collect();
+            let mut i = 1;
+            for item in items {
+                let item = item.trim();
                 if item == "" {
                     i += 1
                 } else {
-                    let item = item.chars().nth(0).unwrap();
+                    let item = item.chars().nth(1).unwrap();
                     if stacks.contains_key(&i) {
                         let mut stack = stacks[&i].to_owned();
                         stack.insert(0,item);
@@ -62,13 +65,15 @@ fn part2() {
             if line.starts_with(" 1") {
                 break;
             }
-            let items = line.replace("    ", "[]").replace( " ", "").replace("][","|").replace("[","|").replace("]", "|");
-            let mut i = 0;
-            for item in items.split("|") {
+            let re = Regex::new(".(.)..?").unwrap();
+            let items: Vec<&str> = re.find_iter(line).map(|mat| mat.as_str()).collect();
+            let mut i = 1;
+            for item in items {
+                let item = item.trim();
                 if item == "" {
                     i += 1
                 } else {
-                    let item = item.chars().nth(0).unwrap();
+                    let item = item.chars().nth(1).unwrap();
                     if stacks.contains_key(&i) {
                         let mut stack = stacks[&i].to_owned();
                         stack.insert(0,item);
@@ -106,6 +111,7 @@ fn part2() {
         }
         let result: String = result.into_iter().collect();
         println!("Part2: {}", result);
+    
     }
 }
 

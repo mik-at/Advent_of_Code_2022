@@ -34,7 +34,9 @@ fn part1() {
         for line in input.lines() {
             if line.starts_with("move") {
                 let mut command = line.split(" ");
-                let (_, quantity, _, from, _, to) = (command.next(), command.next().unwrap().parse::<i32>().unwrap(), command.next(), command.next().unwrap().parse::<i32>().unwrap(), command.next(), command.next().unwrap().parse::<i32>().unwrap());
+                let (quantity, from, to) = (command.nth(1).unwrap().parse::<i32>().unwrap(), command.nth(1).unwrap().parse::<i32>().unwrap(), command.nth(1).unwrap().parse::<i32>().unwrap());
+                /* Note that all preceding elements, as well as the returned element, will be consumed from the iterator.
+                That means that the preceding elements will be discarded, and also that calling nth(0) multiple times on the same iterator will return different elements. */
                 for _i in 0..quantity {
                     let mut from_stack = stacks[&from].to_owned();
                     let mut to_stack = stacks[&to].to_owned();
@@ -90,7 +92,9 @@ fn part2() {
         for line in input.lines() {
             if line.starts_with("move") {
                 let mut command = line.split(" ");
-                let (_, quantity, _, from, _, to) = (command.next(), command.next().unwrap().parse::<i32>().unwrap(), command.next(), command.next().unwrap().parse::<i32>().unwrap(), command.next(), command.next().unwrap().parse::<i32>().unwrap());
+                let (quantity, from, to) = (command.nth(1).unwrap().parse::<i32>().unwrap(), command.nth(1).unwrap().parse::<i32>().unwrap(), command.nth(1).unwrap().parse::<i32>().unwrap());
+                /* Note that all preceding elements, as well as the returned element, will be consumed from the iterator.
+                That means that the preceding elements will be discarded, and also that calling nth(0) multiple times on the same iterator will return different elements. */
                 for i in 0..quantity {
                     let mut from_stack = stacks[&from].to_owned();
                     let mut to_stack = stacks[&to].to_owned();

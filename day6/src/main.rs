@@ -9,7 +9,7 @@ fn part1() {
             if buffer.len() < 4 {
                 buffer.push(char);
             } else {
-                let marker: Vec<char> = buffer[buffer.len()-4..=buffer.len()-1].to_vec();
+                let marker: &[char] = &buffer[buffer.len()-4..=buffer.len()-1];
                 if marker.iter().unique().count() == 4 {
                     result = buffer.len();
                     break;
@@ -29,7 +29,7 @@ fn part2() {
             if buffer.len() < 14 {
                 buffer.push(char);
             } else {
-                let marker: Vec<char> = buffer[buffer.len()-14..=buffer.len()-1].to_vec();
+                let marker: &[char] = &buffer[buffer.len()-14..=buffer.len()-1];
                 if marker.iter().unique().count() == 14 {
                     result = buffer.len();
                     break;

@@ -2,7 +2,7 @@ fn main() {
     // Part 1
     let mut my_score: i32 = 0;
     let mut _opponent_score: i32 = 0;
-        if let Ok(input) = std::fs::read_to_string("./input") {
+    if let Ok(input) = std::fs::read_to_string("./input") {
         let game = input.split("\n");
         for game_round in game {
             if game_round == "" {
@@ -15,16 +15,16 @@ fn main() {
                 "A" => {
                     opponent_hand = "Rock";
                     _opponent_score += 1;
-                },
+                }
                 "B" => {
                     opponent_hand = "Paper";
                     _opponent_score += 2;
-                },
+                }
                 "C" => {
                     opponent_hand = "Scissor";
                     _opponent_score += 3;
-                },
-                _ => {},
+                }
+                _ => {}
             };
             match my_hand {
                 "X" => {
@@ -35,7 +35,7 @@ fn main() {
                     } else if opponent_hand == "Paper" {
                         _opponent_score += 6;
                     }
-                },
+                }
                 "Y" => {
                     my_hand = "Paper";
                     my_score += 2;
@@ -44,7 +44,7 @@ fn main() {
                     } else if opponent_hand == "Scissor" {
                         _opponent_score += 6;
                     }
-                },
+                }
                 "Z" => {
                     my_hand = "Scissor";
                     my_score += 3;
@@ -53,8 +53,8 @@ fn main() {
                     } else if opponent_hand == "Rock" {
                         _opponent_score += 6;
                     }
-                },
-                _ => {},
+                }
+                _ => {}
             };
             if my_hand == opponent_hand {
                 my_score += 3;
@@ -66,7 +66,7 @@ fn main() {
     // Part 2
     let mut my_score: i32 = 0;
     let mut _opponent_score: i32 = 0;
-        if let Ok(input) = std::fs::read_to_string("./input") {
+    if let Ok(input) = std::fs::read_to_string("./input") {
         let game = input.split("\n");
         for game_round in game {
             if game_round == "" {
@@ -79,74 +79,77 @@ fn main() {
                 "A" => {
                     opponent_hand = "Rock";
                     _opponent_score += 1;
-                },
+                }
                 "B" => {
                     opponent_hand = "Paper";
                     _opponent_score += 2;
-                },
+                }
                 "C" => {
                     opponent_hand = "Scissor";
                     _opponent_score += 3;
-                },
-                _ => {},
+                }
+                _ => {}
             };
             match my_hand {
-                "X" => { // lose
+                "X" => {
+                    // lose
                     _opponent_score += 6;
                     match opponent_hand {
                         "Rock" => {
-                           //my_hand = "Scissor";
-                           my_score += 3; 
-                        },
+                            //my_hand = "Scissor";
+                            my_score += 3;
+                        }
                         "Paper" => {
                             //my_hand = "Rock";
                             my_score += 1;
-                        },
+                        }
                         "Scissor" => {
                             //my_hand = "Paper";
                             my_score += 2;
-                        },
-                    _ => {},
+                        }
+                        _ => {}
                     };
-                },
-                "Y" => { // draw
+                }
+                "Y" => {
+                    // draw
                     my_score += 3;
                     _opponent_score += 3;
                     match opponent_hand {
                         "Rock" => {
                             //my_hand = "Rock";
                             my_score += 1
-                        },
+                        }
                         "Paper" => {
                             //my_hand = "Paper";
                             my_score += 2;
-                        },
+                        }
                         "Scissor" => {
                             //my_hand = "Scissor";
                             my_score += 3;
-                        },
-                        _ => {},
+                        }
+                        _ => {}
                     };
-                },
-                "Z" => { // win
+                }
+                "Z" => {
+                    // win
                     my_score += 6;
                     match opponent_hand {
                         "Rock" => {
                             //my_hand = "Paper";
                             my_score += 2;
-                        },
+                        }
                         "Paper" => {
                             //my_hand = "Scissor";
                             my_score += 3;
-                        },
+                        }
                         "Scissor" => {
                             //my_hand = "Rock";
                             my_score += 1;
-                        },
-                        _ => {},
+                        }
+                        _ => {}
                     };
-                },
-                _ => {},
+                }
+                _ => {}
             };
         }
         println!("Part2: {}", my_score);

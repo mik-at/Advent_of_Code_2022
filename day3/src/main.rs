@@ -19,7 +19,7 @@ fn main() {
     if let Ok(input) = std::fs::read_to_string("./input") {
         let cargo = input.lines();
         for rucksack in cargo {
-            let (first, last) = rucksack.split_at(rucksack.len()/2);
+            let (first, last) = rucksack.split_at(rucksack.len() / 2);
             let first = first.chars();
             for item in first {
                 if last.contains(item) {
@@ -27,17 +27,19 @@ fn main() {
                     sump1 += priorities[&item];
                     break;
                 }
-
             }
         }
         let groups: Vec<&str> = input.split("\n").collect();
         //println!("{:?}", groups);
         for j in 0..=groups.len() {
             if j != 0 && j % 3 == 0 {
-                let group = [groups[j-3], groups[j-2], groups[j-1]];
+                let group = [groups[j - 3], groups[j - 2], groups[j - 1]];
                 //println!("{:?}", group);
                 for item in &items {
-                    if group[0].contains(*item) && group[1].contains(*item) && group[2].contains(*item) {
+                    if group[0].contains(*item)
+                        && group[1].contains(*item)
+                        && group[2].contains(*item)
+                    {
                         sump2 += priorities[&item];
                         //println!("Group: {:?}, Item: {}", group, item);
                         break;
@@ -45,7 +47,7 @@ fn main() {
                 }
             }
         }
-    }   
-    println!("Part1 result: {}",sump1);
-    println!("Part1 result: {}",sump2);
+    }
+    println!("Part1 result: {}", sump1);
+    println!("Part1 result: {}", sump2);
 }

@@ -2,30 +2,47 @@ use grid::*;
 
 fn move_tail(pos_h: (usize, usize), pos_t: (usize, usize)) -> (usize, usize) {
     let mut pos_t = pos_t;
+    if pos_t.0 > 0 && pos_h.0 < pos_t.0 - 1 {
+        pos_t.0 -= 1;
+        if pos_h.1 != pos_t.1 {
+            if pos_h.1 > pos_t.1 {
+                pos_t.1 += 1;
+            } else {
+                pos_t.1 -= 1;
+            }
+        }
+    }
     if pos_h.0 > pos_t.0 + 1 {
         pos_t.0 += 1;
         if pos_h.1 != pos_t.1 {
-            pos_t.1 = pos_h.1;
+            if pos_h.1 > pos_t.1 {
+                pos_t.1 += 1;
+            } else {
+                pos_t.1 -= 1;
+            }
         }
     }
     if pos_h.1 > pos_t.1 + 1 {
         pos_t.1 += 1;
         if pos_h.0 != pos_t.0 {
-            pos_t.0 = pos_h.0;
-        }
-    }
-    if pos_t.0 > 0 && pos_h.0 < pos_t.0 - 1 {
-        pos_t.0 -= 1;
-        if pos_h.1 != pos_t.1 {
-            pos_t.1 = pos_h.1;
+            if pos_h.0 > pos_t.0 {
+                pos_t.0 += 1;
+            } else {
+                pos_t.0 -= 1;
+            }
         }
     }
     if pos_t.1 > 0 && pos_h.1 < pos_t.1 - 1 {
         pos_t.1 -= 1;
         if pos_h.0 != pos_t.0 {
-            pos_t.0 = pos_h.0;
+            if pos_h.0 > pos_t.0 {
+                pos_t.0 += 1;
+            } else {
+                pos_t.0 -= 1;
+            }
         }
     }
+
     return pos_t;
 }
 
@@ -176,7 +193,6 @@ fn part2() {
                 grid[pos_t9.0][pos_t9.1] = "#";
             }
         }
-        dbg!(&grid);
         for row in 0..grid.rows() {
             for col in 0..grid.cols() {
                 if grid[row][col] == "#" {

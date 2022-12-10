@@ -61,7 +61,7 @@ fn part2() {
                 screen[row][col] = " ";
             }
             if command == "noop" {
-                cycle += 1;
+                cycle += 1; // do nothing
             } else if command.starts_with("addx") {
                 cycle += 1;
                 let (draw_pixel, row, col) = pixel_math(cycle, x);

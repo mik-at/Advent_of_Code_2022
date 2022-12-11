@@ -110,6 +110,7 @@ fn part2() {
         false_throw: u32,
         inspects: i32,
     }
+
     let mut result: u64 = 0;
     let mut monkeys: HashMap<u32, Monkey> = HashMap::new();
     let mut worry_manager: u64 = 1;

@@ -87,26 +87,40 @@ fn make_grid(input: String) -> (Grid<usize>, Pos, Pos) {
     let grid: Grid<usize> = Grid::from_vec(grid_vec, row_length);
     return (grid, start, goal);
 }
+
 fn part1() {
     let mut result = 0;
     //if let Ok(input) = std::fs::read_to_string("./input_sample") {
     if let Ok(input) = std::fs::read_to_string("./input") {
         let (map, start, goal) = make_grid(input);
         let path = dijkstra(&start, |p| p.neighbours(map.clone()), |p| *p == goal);
-        let mut count = 0;
         let (steps, _) = path.unwrap();
-        for _step in steps {
-            count += 1;
-        }
-        result = count - 1;
+        result = steps.iter().count() - 1;
     }
     println!("Part1: {}", result);
 }
+
 fn part2() {
-    let mut result = "";
-    if let Ok(input) = std::fs::read_to_string("./input_sample") {
-        //if let Ok(input) = std::fs::read_to_string("./input") {
-        // Code here
+    let mut result = usize::MAX;
+    //if let Ok(input) = std::fs::read_to_string("./input_sample") {
+    if let Ok(input) = std::fs::read_to_string("./input") {
+        let (map, _, goal) = make_grid(input);
+        for row in 0..map.rows() {
+            for column in 0..map.cols() {
+                if *map.get(row, column).unwrap() == 0 {
+                    let start = Pos(row, column);
+                    let path = dijkstra(&start, |p| p.neighbours(map.clone()), |p| *p == goal);
+                    if path == None {
+                        continue;
+                    }
+                    let (steps, _) = path.unwrap();
+                    let count = steps.iter().count() - 1;
+                    if result > count {
+                        result = count;
+                    }
+                }
+            }
+        }
     }
     println!("Part2: {}", result);
 }

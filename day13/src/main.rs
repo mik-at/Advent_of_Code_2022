@@ -1,6 +1,7 @@
 use serde_json::{json, Value};
+use std::cmp::Ordering;
 
-fn extract_data(input: &str) -> Vec<(Value, Value)> {
+fn extract_data_in_pairs(input: &str) -> Vec<(Value, Value)> {
     let mut packet_pairs: Vec<(Value, Value)> = Vec::new();
     for packet in input.split("\n\n") {
         let (left, right) = packet.split_once("\n").unwrap();
@@ -51,7 +52,7 @@ fn part1() {
     let mut result = 0;
     //if let Ok(input) = std::fs::read_to_string("./input_sample") {
     if let Ok(input) = std::fs::read_to_string("./input") {
-        let mut packets = extract_data(input.as_str());
+        let packets = extract_data_in_pairs(input.as_str());
         let mut pair_index = 1;
         for pair in packets {
             if compare_pairs(&pair.0, &pair.1) == Some(true) {
@@ -63,11 +64,52 @@ fn part1() {
     println!("Part1: {}", result);
 }
 
+fn extract_data(input: &str) -> Vec<Value> {
+    let mut packets: Vec<Value> = Vec::new();
+    for packet in input.split("\n") {
+        if packet == "" {
+            continue;
+        }
+        let data: Value = serde_json::from_str(packet).unwrap();
+        packets.push(data);
+    }
+    return packets;
+}
+
+fn add_divider_packets(input: Vec<Value>) -> Vec<Value> {
+    let mut data = input;
+    data.push(json!([[2]]));
+    data.push(json!([[6]]));
+    return data;
+}
+
 fn part2() {
-    let mut result = "";
-    if let Ok(input) = std::fs::read_to_string("./input_sample") {
-        //if let Ok(input) = std::fs::read_to_string("./input") {
-        // Code here
+    let mut result = 1;
+    //if let Ok(input) = std::fs::read_to_string("./input_sample") {
+    if let Ok(input) = std::fs::read_to_string("./input") {
+        let mut packets = extract_data(input.as_str());
+        packets = add_divider_packets(packets);
+
+        packets.sort_by(|a, b| match compare_pairs(a, b) {
+            Some(true) => Ordering::Less,
+            Some(false) => Ordering::Greater,
+            _ => Ordering::Equal,
+        });
+        let mut data_index = 1;
+        for data in &packets {
+            if data.get(0) != None
+                && data.get(1) == None
+                && data.get(0).unwrap().get(0) != None
+                && data.get(0).unwrap().get(1) == None
+                && data.get(0).unwrap().get(0).unwrap().is_number()
+                && (data.get(0).unwrap().get(0).unwrap() == 2
+                    || data.get(0).unwrap().get(0).unwrap() == 6)
+            {
+                result *= data_index;
+            }
+
+            data_index += 1;
+        }
     }
     println!("Part2: {}", result);
 }

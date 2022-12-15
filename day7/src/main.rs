@@ -97,10 +97,11 @@ fn part2(file_path: &str) -> i32 {
         let total_space = 70000000;
         let space_free = total_space - space_occupied;
         for dirs in parent_directory_sizes {
-            if space_free + dirs.1 > space_needed && dirs.0 != "/" {
-                if result == 0 || dirs.1 < result {
-                    result = dirs.1;
-                }
+            if space_free + dirs.1 > space_needed
+                && dirs.0 != "/"
+                && (result == 0 || dirs.1 < result)
+            {
+                result = dirs.1;
             }
         }
     }

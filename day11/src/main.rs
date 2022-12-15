@@ -23,7 +23,7 @@ fn part1(file_path: &str) -> i32 {
                 let monkey_data = monkey_data.trim();
                 if monkey_data.starts_with("Monkey") {
                     monkey.name = monkey_data["Monkey ".len()..]
-                        .replace(":", "")
+                        .replace(':', "")
                         .parse()
                         .unwrap();
                     monkey.name = monkey_data.chars().nth(7).unwrap().to_digit(10).unwrap()
@@ -33,7 +33,7 @@ fn part1(file_path: &str) -> i32 {
                         .map(|item| item.parse().unwrap())
                         .collect::<Vec<i32>>()
                 } else if monkey_data.starts_with("Operation:") {
-                    if monkey_data.contains("+") {
+                    if monkey_data.contains('+') {
                         monkey.operation = "Add".to_owned();
                         monkey.operation_do = monkey_data["Operation: new = old X ".len()..]
                             .parse()
@@ -68,9 +68,9 @@ fn part1(file_path: &str) -> i32 {
                     monkey.inspects += 1;
                     let mut item = item;
                     if monkey.operation == "Add" {
-                        item = item + monkey.operation_do;
+                        item += monkey.operation_do;
                     } else if monkey.operation == "Multiplicate" {
-                        item = item * monkey.operation_do;
+                        item *= monkey.operation_do;
                     } else {
                         item = item * item;
                     }
@@ -123,7 +123,7 @@ fn part2(file_path: &str) -> u64 {
                 let monkey_data = monkey_data.trim();
                 if monkey_data.starts_with("Monkey") {
                     monkey.name = monkey_data["Monkey ".len()..]
-                        .replace(":", "")
+                        .replace(':', "")
                         .parse()
                         .unwrap();
                     monkey.name = monkey_data.chars().nth(7).unwrap().to_digit(10).unwrap()
@@ -133,7 +133,7 @@ fn part2(file_path: &str) -> u64 {
                         .map(|item| item.parse().unwrap())
                         .collect::<Vec<u64>>()
                 } else if monkey_data.starts_with("Operation:") {
-                    if monkey_data.contains("+") {
+                    if monkey_data.contains('+') {
                         monkey.operation = "Add".to_owned();
                         monkey.operation_do = monkey_data["Operation: new = old X ".len()..]
                             .parse()
@@ -169,13 +169,13 @@ fn part2(file_path: &str) -> u64 {
                     monkey.inspects += 1;
                     let mut item = item;
                     if monkey.operation == "Add" {
-                        item = item + monkey.operation_do;
+                        item += monkey.operation_do;
                     } else if monkey.operation == "Multiplicate" {
-                        item = item * monkey.operation_do;
+                        item *= monkey.operation_do;
                     } else {
                         item = item * item;
                     }
-                    item = item % worry_manager;
+                    item %= worry_manager;
                     let mut to_monkey = Monkey::default();
                     if item % monkey.test == 0 {
                         to_monkey = monkeys.get(&monkey.true_throw).unwrap().clone();

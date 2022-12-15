@@ -275,7 +275,6 @@ mod tests {
     #[test]
     fn part_1_sample_input() {
         let test_input = "./input_sample";
-        //part1(test_input, 10);
         assert_eq!(part1(test_input, 10), 26);
     }
 

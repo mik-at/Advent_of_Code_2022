@@ -51,7 +51,7 @@ impl Pos {
                 }
             }
         }
-        return neighbours;
+        neighbours
     }
 }
 
@@ -85,7 +85,7 @@ fn make_grid(input: String) -> (Grid<usize>, Pos, Pos) {
         }
     }
     let grid: Grid<usize> = Grid::from_vec(grid_vec, row_length);
-    return (grid, start, goal);
+    (grid, start, goal)
 }
 
 fn part1(file_path: &str) -> usize {
@@ -94,7 +94,7 @@ fn part1(file_path: &str) -> usize {
         let (map, start, goal) = make_grid(input);
         let path = dijkstra(&start, |p| p.neighbours(map.clone()), |p| *p == goal);
         let (steps, _) = path.unwrap();
-        result = steps.iter().count() - 1;
+        result = steps.len() - 1;
     }
     println!("Part1: {}", result);
     result
@@ -109,11 +109,11 @@ fn part2(file_path: &str) -> usize {
                 if *map.get(row, column).unwrap() == 0 {
                     let start = Pos(row, column);
                     let path = dijkstra(&start, |p| p.neighbours(map.clone()), |p| *p == goal);
-                    if path == None {
+                    if path.is_none() {
                         continue;
                     }
                     let (steps, _) = path.unwrap();
-                    let count = steps.iter().count() - 1;
+                    let count = steps.len() - 1;
                     if result > count {
                         result = count;
                     }

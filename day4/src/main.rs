@@ -1,10 +1,10 @@
 fn extract_area(area: &str) -> (i32, i32) {
-    let mut area = area.split("-");
+    let mut area = area.split('-');
     let (area_start, area_end) = (
         area.next().unwrap().parse::<i32>().unwrap(),
         area.next().unwrap().parse::<i32>().unwrap(),
     );
-    return (area_start, area_end);
+    (area_start, area_end)
 }
 
 fn main() {
@@ -12,12 +12,12 @@ fn main() {
     let mut sump2 = 0;
     //if let Ok(input) = std::fs::read_to_string("./input_sample") {
     if let Ok(input) = std::fs::read_to_string("./input") {
-        let pairs = input.split("\n");
+        let pairs = input.split('\n');
         for pair in pairs {
-            if pair == "" {
+            if pair.is_empty() {
                 break;
             }
-            let mut pair = pair.split(",");
+            let mut pair = pair.split(',');
             let (first, last) = (pair.next().unwrap(), pair.next().unwrap());
             let (first_area_start, first_area_end) = extract_area(first);
             let (last_area_start, last_area_end) = extract_area(last);
@@ -29,10 +29,11 @@ fn main() {
             }
             let first_area = first_area_start..=first_area_end;
             let last_area = last_area_start..=last_area_end;
-            if first_area.contains(&last_area_start) || first_area.contains(&last_area_end) {
-                // partial overlap
-                sump2 += 1;
-            } else if last_area.contains(&first_area_start) || last_area.contains(&first_area_end) {
+            if first_area.contains(&last_area_start)
+                || first_area.contains(&last_area_end)
+                || last_area.contains(&first_area_start)
+                || last_area.contains(&first_area_end)
+            {
                 // partial overlap
                 sump2 += 1;
             }

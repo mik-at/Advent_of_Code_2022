@@ -90,10 +90,10 @@ fn calculate_ranges(sensors: Vec<Sensor>) -> Vec<RangedSensor> {
     ranged_sensors
 }
 
-fn get_max_x(sensors: &Vec<RangedSensor>) -> i32 {
+fn get_max_x(sensors: &[RangedSensor]) -> i32 {
     sensors.iter().map(|s| s.x + s.range).max().unwrap()
 }
-fn get_min_x(sensors: &Vec<RangedSensor>) -> i32 {
+fn get_min_x(sensors: &[RangedSensor]) -> i32 {
     sensors.iter().map(|s| s.x - s.range).min().unwrap()
 }
 

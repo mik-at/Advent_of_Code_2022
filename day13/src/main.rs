@@ -4,12 +4,12 @@ use std::cmp::Ordering;
 fn extract_data_in_pairs(input: &str) -> Vec<(Value, Value)> {
     let mut packet_pairs: Vec<(Value, Value)> = Vec::new();
     for packet in input.split("\n\n") {
-        let (left, right) = packet.split_once("\n").unwrap();
+        let (left, right) = packet.split_once('\n').unwrap();
         let left_data: Value = serde_json::from_str(left).unwrap();
         let right_data: Value = serde_json::from_str(right).unwrap();
         packet_pairs.push((left_data, right_data));
     }
-    return packet_pairs;
+    packet_pairs
 }
 
 fn compare_pairs(left: &Value, right: &Value) -> Option<bool> {
@@ -66,21 +66,21 @@ fn part1(file_path: &str) -> i32 {
 
 fn extract_data(input: &str) -> Vec<Value> {
     let mut packets: Vec<Value> = Vec::new();
-    for packet in input.split("\n") {
-        if packet == "" {
+    for packet in input.split('\n') {
+        if packet.is_empty() {
             continue;
         }
         let data: Value = serde_json::from_str(packet).unwrap();
         packets.push(data);
     }
-    return packets;
+    packets
 }
 
 fn add_divider_packets(input: Vec<Value>) -> Vec<Value> {
     let mut data = input;
     data.push(json!([[2]]));
     data.push(json!([[6]]));
-    return data;
+    data
 }
 
 fn part2(file_path: &str) -> i32 {
@@ -96,10 +96,10 @@ fn part2(file_path: &str) -> i32 {
         });
         let mut data_index = 1;
         for data in &packets {
-            if data.get(0) != None
-                && data.get(1) == None
-                && data.get(0).unwrap().get(0) != None
-                && data.get(0).unwrap().get(1) == None
+            if data.get(0).is_some()
+                && data.get(1).is_none()
+                && data.get(0).unwrap().get(0).is_some()
+                && data.get(0).unwrap().get(1).is_none()
                 && data.get(0).unwrap().get(0).unwrap().is_number()
                 && (data.get(0).unwrap().get(0).unwrap() == 2
                     || data.get(0).unwrap().get(0).unwrap() == 6)

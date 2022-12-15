@@ -5,7 +5,7 @@ fn make_cave(input: String) -> (Grid<char>, usize, usize) {
     let mut y_modifier: usize = usize::MAX;
     for walls in input.lines() {
         for wall_coordinates in walls.split(" -> ") {
-            let (y, _) = wall_coordinates.split_once(",").unwrap();
+            let (y, _) = wall_coordinates.split_once(',').unwrap();
             let y: usize = y.parse().unwrap();
             if y_modifier > y {
                 y_modifier = y;
@@ -14,7 +14,7 @@ fn make_cave(input: String) -> (Grid<char>, usize, usize) {
     }
     for walls in input.lines() {
         for wall_coordinates in walls.split(" -> ") {
-            let (y, x) = wall_coordinates.split_once(",").unwrap();
+            let (y, x) = wall_coordinates.split_once(',').unwrap();
             let x: usize = x.parse().unwrap();
             let mut y: usize = y.parse().unwrap();
             y -= y_modifier;
@@ -33,12 +33,12 @@ fn make_cave(input: String) -> (Grid<char>, usize, usize) {
         let mut last_x: usize = 0;
         let mut last_y: usize = 0;
         for wall_coordinates in walls.split(" -> ") {
-            let (y, x) = wall_coordinates.split_once(",").unwrap();
+            let (y, x) = wall_coordinates.split_once(',').unwrap();
             let x: usize = x.parse().unwrap();
             let mut y: usize = y.parse().unwrap();
             y -= y_modifier;
             grid[x][y] = '#';
-            if last == false {
+            if !last {
                 last = true;
                 last_x = x;
                 last_y = y;
@@ -53,15 +53,13 @@ fn make_cave(input: String) -> (Grid<char>, usize, usize) {
                             grid[u][y] = '#';
                         }
                     }
+                } else if y > last_y {
+                    for u in last_y..y {
+                        grid[x][u] = '#';
+                    }
                 } else {
-                    if y > last_y {
-                        for u in last_y..y {
-                            grid[x][u] = '#';
-                        }
-                    } else {
-                        for u in y..last_y {
-                            grid[x][u] = '#';
-                        }
+                    for u in y..last_y {
+                        grid[x][u] = '#';
                     }
                 }
                 last_x = x;
@@ -72,7 +70,7 @@ fn make_cave(input: String) -> (Grid<char>, usize, usize) {
     grid.insert_col(0, vec!['.'; grid.rows()]);
     let abyss = grid.rows() - 1;
     let start_col = y_modifier - 1;
-    return (grid, abyss, start_col);
+    (grid, abyss, start_col)
 }
 
 fn simulate_sand_part1(
@@ -81,7 +79,7 @@ fn simulate_sand_part1(
     start_col: usize,
     start: usize,
 ) -> Grid<char> {
-    let mut grid = cave.clone();
+    let mut grid = cave;
     let start = start - start_col;
     let mut x: usize = 0;
     let mut y = start;
@@ -89,14 +87,14 @@ fn simulate_sand_part1(
         if x >= abyss {
             break;
         }
-        if grid.get(x + 1, y).unwrap().to_owned() == '#'
-            || grid.get(x + 1, y).unwrap().to_owned() == 'o'
+        if *grid.get(x + 1, y).unwrap() == '#'
+            || *grid.get(x + 1, y).unwrap() == 'o'
         {
-            if grid.get(x + 1, y - 1).unwrap().to_owned() == '#'
-                || grid.get(x + 1, y - 1).unwrap().to_owned() == 'o'
+            if *grid.get(x + 1, y - 1).unwrap() == '#'
+                || *grid.get(x + 1, y - 1).unwrap() == 'o'
             {
-                if grid.get(x + 1, y + 1).unwrap().to_owned() == '#'
-                    || grid.get(x + 1, y + 1).unwrap().to_owned() == 'o'
+                if *grid.get(x + 1, y + 1).unwrap() == '#'
+                    || *grid.get(x + 1, y + 1).unwrap() == 'o'
                 {
                     if x != 0 {
                         grid[x][y] = 'o';
@@ -115,14 +113,14 @@ fn simulate_sand_part1(
             x += 1;
         }
     }
-    return grid;
+    grid
 }
 
 fn make_cave_full(input: String) -> (Grid<char>, usize) {
     let mut grid: Grid<char> = Grid::from_vec(vec!['.'], 1);
     for walls in input.lines() {
         for wall_coordinates in walls.split(" -> ") {
-            let (y, x) = wall_coordinates.split_once(",").unwrap();
+            let (y, x) = wall_coordinates.split_once(',').unwrap();
             let x: usize = x.parse().unwrap();
             let y: usize = y.parse().unwrap();
             while x + 1 > grid.rows() {
@@ -140,11 +138,11 @@ fn make_cave_full(input: String) -> (Grid<char>, usize) {
         let mut last_x: usize = 0;
         let mut last_y: usize = 0;
         for wall_coordinates in walls.split(" -> ") {
-            let (y, x) = wall_coordinates.split_once(",").unwrap();
+            let (y, x) = wall_coordinates.split_once(',').unwrap();
             let x: usize = x.parse().unwrap();
             let y: usize = y.parse().unwrap();
             grid[x][y] = '#';
-            if last == false {
+            if !last {
                 last = true;
                 last_x = x;
                 last_y = y;
@@ -159,15 +157,13 @@ fn make_cave_full(input: String) -> (Grid<char>, usize) {
                             grid[u][y] = '#';
                         }
                     }
+                } else if y > last_y {
+                    for u in last_y..y {
+                        grid[x][u] = '#';
+                    }
                 } else {
-                    if y > last_y {
-                        for u in last_y..y {
-                            grid[x][u] = '#';
-                        }
-                    } else {
-                        for u in y..last_y {
-                            grid[x][u] = '#';
-                        }
+                    for u in y..last_y {
+                        grid[x][u] = '#';
                     }
                 }
                 last_x = x;
@@ -178,11 +174,11 @@ fn make_cave_full(input: String) -> (Grid<char>, usize) {
     grid.insert_col(0, vec!['.'; grid.rows()]);
     grid.push_row(vec!['#'; grid.cols()]);
     let floor = grid.rows();
-    return (grid, floor);
+    (grid, floor)
 }
 
 fn simulate_sand_part2(cave: Grid<char>, floor: usize, start: usize) -> Grid<char> {
-    let mut grid = cave.clone();
+    let mut grid = cave;
     let mut x: usize = 0;
     let mut y = start;
     loop {
@@ -194,20 +190,20 @@ fn simulate_sand_part2(cave: Grid<char>, floor: usize, start: usize) -> Grid<cha
         if x > floor {
             break;
         }
-        if grid.get(0, y).unwrap().to_owned() == 'o'
-            && grid.get(0, y + 1).unwrap().to_owned() == 'o'
-            && grid.get(0, y - 1).unwrap().to_owned() == 'o'
+        if *grid.get(0, y).unwrap() == 'o'
+            && *grid.get(0, y + 1).unwrap() == 'o'
+            && *grid.get(0, y - 1).unwrap() == 'o'
         {
             break;
         }
-        if grid.get(x + 1, y).unwrap().to_owned() == '#'
-            || grid.get(x + 1, y).unwrap().to_owned() == 'o'
+        if *grid.get(x + 1, y).unwrap() == '#'
+            || *grid.get(x + 1, y).unwrap() == 'o'
         {
-            if grid.get(x + 1, y - 1).unwrap().to_owned() == '#'
-                || grid.get(x + 1, y - 1).unwrap().to_owned() == 'o'
+            if *grid.get(x + 1, y - 1).unwrap() == '#'
+                || *grid.get(x + 1, y - 1).unwrap() == 'o'
             {
-                if grid.get(x + 1, y + 1).unwrap().to_owned() == '#'
-                    || grid.get(x + 1, y + 1).unwrap().to_owned() == 'o'
+                if *grid.get(x + 1, y + 1).unwrap() == '#'
+                    || *grid.get(x + 1, y + 1).unwrap() == 'o'
                 {
                     if x != 0 {
                         grid[x][y] = 'o';
@@ -227,7 +223,7 @@ fn simulate_sand_part2(cave: Grid<char>, floor: usize, start: usize) -> Grid<cha
         }
     }
     grid[0][start] = 'o';
-    return grid;
+    grid
 }
 
 fn part1(file_path: &str) -> i32 {
@@ -237,7 +233,7 @@ fn part1(file_path: &str) -> i32 {
         let sand_cave = simulate_sand_part1(cave, abyss, start_col, 500);
         for row in 0..sand_cave.rows() {
             for col in 0..sand_cave.cols() {
-                if sand_cave.get(row, col).unwrap().to_owned() == 'o' {
+                if *sand_cave.get(row, col).unwrap() == 'o' {
                     result += 1;
                 }
             }
@@ -253,7 +249,7 @@ fn part2(file_path: &str) -> i32 {
         let sand_cave = simulate_sand_part2(cave, floor, 501);
         for row in 0..sand_cave.rows() {
             for col in 0..sand_cave.cols() {
-                if sand_cave.get(row, col).unwrap().to_owned() == 'o' {
+                if *sand_cave.get(row, col).unwrap() == 'o' {
                     result += 1;
                 }
             }

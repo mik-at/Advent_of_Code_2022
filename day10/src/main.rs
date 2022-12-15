@@ -2,9 +2,9 @@ use grid::*;
 
 fn add_result_part1(cycle: i32, x: i32) -> i32 {
     if cycle == 20 || cycle == 60 || cycle == 100 || cycle == 140 || cycle == 180 || cycle == 220 {
-        return cycle * x;
+        cycle * x
     } else {
-        return 0;
+        0
     }
 }
 fn part1(file_path: &str) -> i32 {
@@ -19,7 +19,7 @@ fn part1(file_path: &str) -> i32 {
                 cycle += 1;
                 result += add_result_part1(cycle, x);
                 let add_x: i32 = command
-                    .split(" ")
+                    .split(' ')
                     .into_iter()
                     .nth(1)
                     .unwrap()
@@ -44,7 +44,7 @@ fn pixel_math(cycle: i32, x: i32) -> (bool, usize, usize) {
     if col == x - 1 || col == x || col == x + 1 {
         draw_pixel = true;
     }
-    return (draw_pixel, row.try_into().unwrap(), col.try_into().unwrap());
+    (draw_pixel, row.try_into().unwrap(), col.try_into().unwrap())
 }
 
 fn part2(file_path: &str) -> &str {
@@ -70,7 +70,7 @@ fn part2(file_path: &str) -> &str {
                     screen[row][col] = " ";
                 }
                 let add_x: i32 = command
-                    .split(" ")
+                    .split(' ')
                     .into_iter()
                     .nth(1)
                     .unwrap()
@@ -86,7 +86,7 @@ fn part2(file_path: &str) -> &str {
         for col in 0..screen.cols() {
             print!("{}", screen[row][col]);
         }
-        println!("");
+        println!();
     }
     ""
 }

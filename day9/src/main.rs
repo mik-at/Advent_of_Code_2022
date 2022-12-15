@@ -43,7 +43,7 @@ fn move_tail(pos_h: (usize, usize), pos_t: (usize, usize)) -> (usize, usize) {
         }
     }
 
-    return pos_t;
+    pos_t
 }
 
 fn part1(file_path: &str) -> i32 {
@@ -53,7 +53,7 @@ fn part1(file_path: &str) -> i32 {
         let mut pos_h = (0, 0);
         let mut pos_t = (0, 0);
         for h_move in input.lines() {
-            let (direction, count) = h_move.split_once(" ").unwrap();
+            let (direction, count) = h_move.split_once(' ').unwrap();
             let count: i32 = count.parse().unwrap();
             for movements in 0..=count {
                 if movements == count {
@@ -121,7 +121,7 @@ fn part2(file_path: &str) -> i32 {
         let mut pos_t8 = (0, 0);
         let mut pos_t9 = (0, 0);
         for h_move in input.lines() {
-            let (direction, count) = h_move.split_once(" ").unwrap();
+            let (direction, count) = h_move.split_once(' ').unwrap();
             let count: i32 = count.parse().unwrap();
             for movements in 0..=count {
                 if movements == count {

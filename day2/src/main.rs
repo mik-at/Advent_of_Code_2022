@@ -3,12 +3,12 @@ fn main() {
     let mut my_score: i32 = 0;
     let mut _opponent_score: i32 = 0;
     if let Ok(input) = std::fs::read_to_string("./input") {
-        let game = input.split("\n");
+        let game = input.split('\n');
         for game_round in game {
-            if game_round == "" {
+            if game_round.is_empty() {
                 break;
             }
-            let hands: Vec<&str> = game_round.split(" ").collect();
+            let hands: Vec<&str> = game_round.split(' ').collect();
             let mut my_hand = hands[1];
             let mut opponent_hand = hands[0];
             match opponent_hand {
@@ -67,12 +67,12 @@ fn main() {
     let mut my_score: i32 = 0;
     let mut _opponent_score: i32 = 0;
     if let Ok(input) = std::fs::read_to_string("./input") {
-        let game = input.split("\n");
+        let game = input.split('\n');
         for game_round in game {
-            if game_round == "" {
+            if game_round.is_empty() {
                 break;
             }
-            let hands: Vec<&str> = game_round.split(" ").collect();
+            let hands: Vec<&str> = game_round.split(' ').collect();
             let my_hand = hands[1];
             let mut opponent_hand = hands[0];
             match opponent_hand {

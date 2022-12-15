@@ -48,10 +48,9 @@ fn compare_pairs(left: &Value, right: &Value) -> Option<bool> {
     }
 }
 
-fn part1() {
+fn part1(file_path: &str) -> i32 {
     let mut result = 0;
-    //if let Ok(input) = std::fs::read_to_string("./input_sample") {
-    if let Ok(input) = std::fs::read_to_string("./input") {
+    if let Ok(input) = std::fs::read_to_string(file_path) {
         let packets = extract_data_in_pairs(input.as_str());
         let mut pair_index = 1;
         for pair in packets {
@@ -62,6 +61,7 @@ fn part1() {
         }
     }
     println!("Part1: {}", result);
+    result
 }
 
 fn extract_data(input: &str) -> Vec<Value> {
@@ -83,10 +83,9 @@ fn add_divider_packets(input: Vec<Value>) -> Vec<Value> {
     return data;
 }
 
-fn part2() {
+fn part2(file_path: &str) -> i32 {
     let mut result = 1;
-    //if let Ok(input) = std::fs::read_to_string("./input_sample") {
-    if let Ok(input) = std::fs::read_to_string("./input") {
+    if let Ok(input) = std::fs::read_to_string(file_path) {
         let mut packets = extract_data(input.as_str());
         packets = add_divider_packets(packets);
 
@@ -112,9 +111,26 @@ fn part2() {
         }
     }
     println!("Part2: {}", result);
+    result
 }
 
 fn main() {
-    part1();
-    part2();
+    part1(INPUT_FILE);
+    part2(INPUT_FILE);
+}
+const INPUT_FILE: &str = "./input";
+#[cfg(test)]
+mod tests {
+    const INPUT_TEST_FILE: &str = "./input_sample";
+    use crate::{part1, part2};
+
+    #[test]
+    fn part_1_sample_input() {
+        assert_eq!(part1(INPUT_TEST_FILE), 13);
+    }
+
+    #[test]
+    fn part_2_sample_input() {
+        assert_eq!(part2(INPUT_TEST_FILE), 140);
+    }
 }

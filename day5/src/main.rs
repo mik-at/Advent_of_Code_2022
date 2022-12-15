@@ -1,10 +1,10 @@
 use regex::Regex;
 use std::{char, collections::HashMap};
 
-fn part1() {
+fn part1(file_path: &str) -> String {
+    let mut result: String = "".to_owned();
     let mut stacks: HashMap<i32, Vec<char>> = HashMap::new();
-    //if let Ok(input) = std::fs::read_to_string("./input_sample") {
-    if let Ok(input) = std::fs::read_to_string("./input") {
+    if let Ok(input) = std::fs::read_to_string(file_path) {
         for line in input.lines() {
             // create the stacks HashMap
             if line.starts_with(" 1") {
@@ -51,21 +51,22 @@ fn part1() {
                 }
             }
         }
-        let mut result: Vec<char> = Vec::new();
         let mut i = 1;
+        let mut res: Vec<char> = Vec::new();
         for _stack in &stacks {
-            result.push(*stacks[&i].last().unwrap());
+            res.push(*stacks[&i].last().unwrap());
             i += 1;
         }
-        let result: String = result.into_iter().collect();
+        result = res.into_iter().collect();
         println!("Part1: {}", result);
     }
+    result
 }
 
-fn part2() {
+fn part2(file_path: &str) -> String {
+    let mut result: String = "".to_owned();
     let mut stacks: HashMap<i32, Vec<char>> = HashMap::new();
-    //if let Ok(input) = std::fs::read_to_string("./input_sample") {
-    if let Ok(input) = std::fs::read_to_string("./input") {
+    if let Ok(input) = std::fs::read_to_string(file_path) {
         for line in input.lines() {
             // create the stacks HashMap
             if line.starts_with(" 1") {
@@ -113,18 +114,35 @@ fn part2() {
                 }
             }
         }
-        let mut result: Vec<char> = Vec::new();
+        let mut res: Vec<char> = Vec::new();
         let mut i = 1;
         for _stack in &stacks {
-            result.push(*stacks[&i].last().unwrap());
+            res.push(*stacks[&i].last().unwrap());
             i += 1;
         }
-        let result: String = result.into_iter().collect();
+        result = res.into_iter().collect();
         println!("Part2: {}", result);
     }
+    result
 }
 
 fn main() {
-    part1();
-    part2();
+    part1(INPUT_FILE);
+    part2(INPUT_FILE);
+}
+const INPUT_FILE: &str = "./input";
+#[cfg(test)]
+mod tests {
+    const INPUT_TEST_FILE: &str = "./input_sample";
+    use crate::{part1, part2};
+
+    #[test]
+    fn part_1_sample_input() {
+        assert_eq!(part1(INPUT_TEST_FILE), "CMZ");
+    }
+
+    #[test]
+    fn part_2_sample_input() {
+        assert_eq!(part2(INPUT_TEST_FILE), "MCD");
+    }
 }

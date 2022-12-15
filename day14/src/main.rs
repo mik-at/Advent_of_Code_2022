@@ -230,10 +230,9 @@ fn simulate_sand_part2(cave: Grid<char>, floor: usize, start: usize) -> Grid<cha
     return grid;
 }
 
-fn part1() {
+fn part1(file_path: &str) -> i32 {
     let mut result = 0;
-    //if let Ok(input) = std::fs::read_to_string("./input_sample") {
-    if let Ok(input) = std::fs::read_to_string("./input") {
+    if let Ok(input) = std::fs::read_to_string(file_path) {
         let (cave, abyss, start_col) = make_cave(input);
         let sand_cave = simulate_sand_part1(cave, abyss, start_col, 500);
         for row in 0..sand_cave.rows() {
@@ -245,11 +244,11 @@ fn part1() {
         }
     }
     println!("Part1: {}", result);
+    result
 }
-fn part2() {
+fn part2(file_path: &str) -> i32 {
     let mut result = 0;
-    //if let Ok(input) = std::fs::read_to_string("./input_sample") {
-    if let Ok(input) = std::fs::read_to_string("./input") {
+    if let Ok(input) = std::fs::read_to_string(file_path) {
         let (cave, floor) = make_cave_full(input);
         let sand_cave = simulate_sand_part2(cave, floor, 501);
         for row in 0..sand_cave.rows() {
@@ -261,9 +260,26 @@ fn part2() {
         }
     }
     println!("Part2: {}", result);
+    result
 }
 
 fn main() {
-    part1();
-    part2();
+    part1(INPUT_FILE);
+    part2(INPUT_FILE);
+}
+const INPUT_FILE: &str = "./input";
+#[cfg(test)]
+mod tests {
+    const INPUT_TEST_FILE: &str = "./input_sample";
+    use crate::{part1, part2};
+
+    #[test]
+    fn part_1_sample_input() {
+        assert_eq!(part1(INPUT_TEST_FILE), 24);
+    }
+
+    #[test]
+    fn part_2_sample_input() {
+        assert_eq!(part2(INPUT_TEST_FILE), 93);
+    }
 }

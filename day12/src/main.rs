@@ -88,22 +88,21 @@ fn make_grid(input: String) -> (Grid<usize>, Pos, Pos) {
     return (grid, start, goal);
 }
 
-fn part1() {
+fn part1(file_path: &str) -> usize {
     let mut result = 0;
-    //if let Ok(input) = std::fs::read_to_string("./input_sample") {
-    if let Ok(input) = std::fs::read_to_string("./input") {
+    if let Ok(input) = std::fs::read_to_string(file_path) {
         let (map, start, goal) = make_grid(input);
         let path = dijkstra(&start, |p| p.neighbours(map.clone()), |p| *p == goal);
         let (steps, _) = path.unwrap();
         result = steps.iter().count() - 1;
     }
     println!("Part1: {}", result);
+    result
 }
 
-fn part2() {
+fn part2(file_path: &str) -> usize {
     let mut result = usize::MAX;
-    //if let Ok(input) = std::fs::read_to_string("./input_sample") {
-    if let Ok(input) = std::fs::read_to_string("./input") {
+    if let Ok(input) = std::fs::read_to_string(file_path) {
         let (map, _, goal) = make_grid(input);
         for row in 0..map.rows() {
             for column in 0..map.cols() {
@@ -123,9 +122,26 @@ fn part2() {
         }
     }
     println!("Part2: {}", result);
+    result
 }
 
 fn main() {
-    part1();
-    part2();
+    part1(INPUT_FILE);
+    part2(INPUT_FILE);
+}
+const INPUT_FILE: &str = "./input";
+#[cfg(test)]
+mod tests {
+    const INPUT_TEST_FILE: &str = "./input_sample";
+    use crate::{part1, part2};
+
+    #[test]
+    fn part_1_sample_input() {
+        assert_eq!(part1(INPUT_TEST_FILE), 31);
+    }
+
+    #[test]
+    fn part_2_sample_input() {
+        assert_eq!(part2(INPUT_TEST_FILE), 29);
+    }
 }

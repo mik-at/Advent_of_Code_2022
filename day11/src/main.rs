@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-fn part1() {
+fn part1(file_path: &str) -> i32 {
     #[derive(Debug, Default, Clone)]
     struct Monkey {
         name: u32,
@@ -15,8 +15,7 @@ fn part1() {
     let mut result: i32 = 0;
     let mut monkeys: HashMap<u32, Monkey> = HashMap::new();
     let rounds = 20;
-    //if let Ok(input) = std::fs::read_to_string("./input_sample") {
-    if let Ok(input) = std::fs::read_to_string("./input") {
+    if let Ok(input) = std::fs::read_to_string(file_path) {
         for monkey_config in input.split("\n\n") {
             // create monkeys hashmap
             let mut monkey = Monkey::default();
@@ -97,8 +96,9 @@ fn part1() {
         result = inspects[inspects.len() - 1] * inspects[inspects.len() - 2];
     }
     println!("Part1: {}", result);
+    result
 }
-fn part2() {
+fn part2(file_path: &str) -> u64 {
     #[derive(Debug, Default, Clone)]
     struct Monkey {
         name: u32,
@@ -115,8 +115,7 @@ fn part2() {
     let mut monkeys: HashMap<u32, Monkey> = HashMap::new();
     let mut worry_manager: u64 = 1;
     let rounds = 10000;
-    //if let Ok(input) = std::fs::read_to_string("./input_sample") {
-    if let Ok(input) = std::fs::read_to_string("./input") {
+    if let Ok(input) = std::fs::read_to_string(file_path) {
         for monkey_config in input.split("\n\n") {
             // create monkeys hashmap
             let mut monkey = Monkey::default();
@@ -205,9 +204,26 @@ fn part2() {
         result = inspects[inspects.len() - 1] * inspects[inspects.len() - 2]
     }
     println!("Part2: {}", result);
+    result
 }
 
 fn main() {
-    part1();
-    part2();
+    part1(INPUT_FILE);
+    part2(INPUT_FILE);
+}
+const INPUT_FILE: &str = "./input";
+#[cfg(test)]
+mod tests {
+    const INPUT_TEST_FILE: &str = "./input_sample";
+    use crate::{part1, part2};
+
+    #[test]
+    fn part_1_sample_input() {
+        assert_eq!(part1(INPUT_TEST_FILE), 10605);
+    }
+
+    #[test]
+    fn part_2_sample_input() {
+        assert_eq!(part2(INPUT_TEST_FILE), 2713310158);
+    }
 }

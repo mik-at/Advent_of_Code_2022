@@ -46,10 +46,9 @@ fn move_tail(pos_h: (usize, usize), pos_t: (usize, usize)) -> (usize, usize) {
     return pos_t;
 }
 
-fn part1() {
+fn part1(file_path: &str) -> i32 {
     let mut result = 0;
-    //if let Ok(input) = std::fs::read_to_string("./input_sample") {
-    if let Ok(input) = std::fs::read_to_string("./input") {
+    if let Ok(input) = std::fs::read_to_string(file_path) {
         let mut grid = grid!(["."]);
         let mut pos_h = (0, 0);
         let mut pos_t = (0, 0);
@@ -95,12 +94,6 @@ fn part1() {
                 grid[pos_t.0][pos_t.1] = "#";
             }
         }
-        /*dbg!(grid);
-        println!("    [ \".\", \".\", \"#\", \"#\", \".\", \".\"]");
-        println!("    [ \".\", \".\", \".\", \"#\", \"#\", \".\"]");
-        println!("    [ \".\", \"#\", \"#\", \"#\", \"#\", \".\"]");
-        println!("    [ \".\", \".\", \".\", \".\", \"#\", \".\"]");
-        println!("    [ \"#\", \"#\", \"#\", \"#\", \".\", \".\"]");*/
         for row in 0..grid.rows() {
             for col in 0..grid.cols() {
                 if grid[row][col] == "#" {
@@ -110,12 +103,12 @@ fn part1() {
         }
     }
     println!("Part1: {}", result);
+    result
 }
 
-fn part2() {
+fn part2(file_path: &str) -> i32 {
     let mut result = 0;
-    //if let Ok(input) = std::fs::read_to_string("./input_sample2") {
-    if let Ok(input) = std::fs::read_to_string("./input") {
+    if let Ok(input) = std::fs::read_to_string(file_path) {
         let mut grid = grid!(["."]);
         let mut pos_h = (0, 0);
         let mut pos_t1 = (0, 0);
@@ -202,9 +195,26 @@ fn part2() {
         }
     }
     println!("Part2: {}", result);
+    result
 }
 
 fn main() {
-    part1();
-    part2();
+    part1(INPUT_FILE);
+    part2(INPUT_FILE);
+}
+const INPUT_FILE: &str = "./input";
+#[cfg(test)]
+mod tests {
+    const INPUT_TEST_FILE: &str = "./input_sample";
+    use crate::{part1, part2};
+
+    #[test]
+    fn part_1_sample_input() {
+        assert_eq!(part1(INPUT_TEST_FILE), 12);
+    }
+
+    #[test]
+    fn part_2_sample_input() {
+        assert_eq!(part2(INPUT_TEST_FILE), 36);
+    }
 }

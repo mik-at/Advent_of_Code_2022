@@ -22,10 +22,10 @@ fn parse_sensors(input: String) -> Vec<Sensor> {
     let mut sensors: Vec<Sensor> = Vec::new();
     for line in input.lines() {
         let mut values = line
-            .split(" ")
+            .split(' ')
             .collect::<Vec<_>>()
             .into_iter()
-            .filter(|string| string.starts_with("x") || string.starts_with("y"))
+            .filter(|string| string.starts_with('x') || string.starts_with('y'))
             .map(|value| {
                 value.trim_matches(|c| c == 'x' || c == 'y' || c == '=' || c == ',' || c == ':')
             })
@@ -38,7 +38,7 @@ fn parse_sensors(input: String) -> Vec<Sensor> {
         };
         sensors.push(sensor);
     }
-    return sensors;
+    sensors
 }
 
 #[derive(Debug, Default, Clone, Copy)]
@@ -62,24 +62,19 @@ impl RangedSensor {
     }
     fn get_map_char(self, x: i32, y: i32) -> char {
         if self.x == x && self.y == y {
-            return 'S';
+            'S'
         } else if self.beacon_x == x && self.beacon_y == y {
-            return 'B';
+            'B'
         } else if calculate_distance(vec![x, y], vec![self.x, self.y]) <= self.range {
-            return '#';
+            '#'
         } else {
-            return '.';
+            '.'
         }
     }
     fn field_empty(self, x: i32, y: i32) -> bool {
-        if (self.x == x && self.y == y)
+        (self.x == x && self.y == y)
             || self.beacon_x == x && self.beacon_y == y
             || calculate_distance(vec![x, y], vec![self.x, self.y]) <= self.range
-        {
-            return true;
-        } else {
-            return false;
-        }
     }
 }
 
@@ -92,14 +87,14 @@ fn calculate_ranges(sensors: Vec<Sensor>) -> Vec<RangedSensor> {
     for sensor in sensors {
         ranged_sensors.push(RangedSensor::new(sensor));
     }
-    return ranged_sensors;
+    ranged_sensors
 }
 
 fn get_max_x(sensors: &Vec<RangedSensor>) -> i32 {
-    sensors.into_iter().map(|s| s.x + s.range).max().unwrap()
+    sensors.iter().map(|s| s.x + s.range).max().unwrap()
 }
 fn get_min_x(sensors: &Vec<RangedSensor>) -> i32 {
-    sensors.into_iter().map(|s| s.x - s.range).min().unwrap()
+    sensors.iter().map(|s| s.x - s.range).min().unwrap()
 }
 
 fn get_y_values(sensors: Vec<RangedSensor>, y: i32) -> Vec<char> {
@@ -119,7 +114,7 @@ fn get_y_values(sensors: Vec<RangedSensor>, y: i32) -> Vec<char> {
         }
         row.push(row_char);
     }
-    return row;
+    row
 }
 
 fn part1(file_path: &str, row_num: i32) -> i32 {
@@ -136,7 +131,7 @@ fn part1(file_path: &str, row_num: i32) -> i32 {
         }
     }
     println!("Part1: {}", result);
-    return result;
+    result
 }
 
 fn calculate_boundaries(sensors: Vec<RangedSensor>) -> Vec<(i32, i32)> {
@@ -177,7 +172,7 @@ fn calculate_boundaries(sensors: Vec<RangedSensor>) -> Vec<(i32, i32)> {
             sensor_boundaries.push((x, y));
         }
     }
-    return sensor_boundaries;
+    sensor_boundaries
 }
 
 fn find_hole(
@@ -196,7 +191,7 @@ fn find_hole(
                     break;
                 }
             }
-            if empty == false {
+            if !empty {
                 return (x, y);
             }
         }
@@ -210,7 +205,7 @@ fn find_hole(
                     break;
                 }
             }
-            if empty == false {
+            if !empty {
                 return (x, y);
             }
         }
@@ -224,7 +219,7 @@ fn find_hole(
                     break;
                 }
             }
-            if empty == false {
+            if !empty {
                 return (x, y);
             }
         }
@@ -238,12 +233,12 @@ fn find_hole(
                     break;
                 }
             }
-            if empty == false {
+            if !empty {
                 return (x, y);
             }
         }
     }
-    return (0, 0);
+    (0, 0)
 }
 
 fn part2(file_path: &str, frequency: i32, search_radius: i32) -> u128 {
@@ -256,7 +251,7 @@ fn part2(file_path: &str, frequency: i32, search_radius: i32) -> u128 {
         result = x as u128 * frequency as u128 + y as u128;
     }
     println!("Part2: {}", result);
-    return result;
+    result
 }
 
 fn main() {
@@ -264,23 +259,22 @@ fn main() {
     part2(INPUT_FILE, *FREQUENCY_PART2, *SEARCH_RADIUS_PART2);
 }
 
-static INPUT_FILE: &'static str = "./input";
-static ROW_NUM_PART1: &'static i32 = &2000000;
-static FREQUENCY_PART2: &'static i32 = &4000000;
-static SEARCH_RADIUS_PART2: &'static i32 = &4000000;
+const INPUT_FILE: &str = "./input";
+const ROW_NUM_PART1: &i32 = &2000000;
+const FREQUENCY_PART2: &i32 = &4000000;
+const SEARCH_RADIUS_PART2: &i32 = &4000000;
 #[cfg(test)]
 mod tests {
+    const INPUT_TEST_FILE: &str = "./input_sample";
     use crate::{part1, part2};
 
     #[test]
     fn part_1_sample_input() {
-        let test_input = "./input_sample";
-        assert_eq!(part1(test_input, 10), 26);
+        assert_eq!(part1(INPUT_TEST_FILE, 10), 26);
     }
 
     #[test]
     fn part_2_sample_input() {
-        let test_input = "./input_sample";
-        assert_eq!(part2(test_input, 4000000, 20), 56000011);
+        assert_eq!(part2(INPUT_TEST_FILE, 4000000, 20), 56000011);
     }
 }

@@ -7,12 +7,11 @@ fn add_result_part1(cycle: i32, x: i32) -> i32 {
         return 0;
     }
 }
-fn part1() {
+fn part1(file_path: &str) -> i32 {
     let mut result = 0;
     let mut x = 1;
     let mut cycle = 1;
-    //if let Ok(input) = std::fs::read_to_string("./input_sample") {
-    if let Ok(input) = std::fs::read_to_string("./input") {
+    if let Ok(input) = std::fs::read_to_string(file_path) {
         for command in input.lines() {
             if command == "noop" {
                 cycle += 1; // do nothing
@@ -33,6 +32,7 @@ fn part1() {
         }
     }
     println!("Part1: {}", result);
+    result
 }
 
 fn pixel_math(cycle: i32, x: i32) -> (bool, usize, usize) {
@@ -47,12 +47,11 @@ fn pixel_math(cycle: i32, x: i32) -> (bool, usize, usize) {
     return (draw_pixel, row.try_into().unwrap(), col.try_into().unwrap());
 }
 
-fn part2() {
+fn part2(file_path: &str) -> &str {
     let mut x = 1;
     let mut cycle = 1;
     let mut screen: Grid<&str> = Grid::new(6, 40);
-    //if let Ok(input) = std::fs::read_to_string("./input_sample") {
-    if let Ok(input) = std::fs::read_to_string("./input") {
+    if let Ok(input) = std::fs::read_to_string(file_path) {
         for command in input.lines() {
             let (draw_pixel, row, col) = pixel_math(cycle, x);
             if draw_pixel {
@@ -89,9 +88,26 @@ fn part2() {
         }
         println!("");
     }
+    ""
 }
 
 fn main() {
-    part1();
-    part2();
+    part1(INPUT_FILE);
+    part2(INPUT_FILE);
+}
+const INPUT_FILE: &str = "./input";
+#[cfg(test)]
+mod tests {
+    const INPUT_TEST_FILE: &str = "./input_sample";
+    use crate::{part1, part2};
+
+    #[test]
+    fn part_1_sample_input() {
+        assert_eq!(part1(INPUT_TEST_FILE), 13140);
+    }
+
+    #[test]
+    fn part_2_sample_input() {
+        assert_eq!(part2(INPUT_TEST_FILE), "");
+    }
 }

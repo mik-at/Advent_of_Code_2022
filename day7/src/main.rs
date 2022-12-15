@@ -1,12 +1,11 @@
 use regex::Regex;
 use std::collections::HashMap;
 
-fn part1() {
+fn part1(file_path: &str) -> i32 {
     let mut result = 0;
     let mut path: String = "".to_owned();
     let mut filesystem: HashMap<String, i32> = HashMap::new();
-    //if let Ok(input) = std::fs::read_to_string("./input_sample") {
-    if let Ok(input) = std::fs::read_to_string("./input") {
+    if let Ok(input) = std::fs::read_to_string(file_path) {
         for command in input.lines() {
             // make filesystem
             if command.starts_with("$ cd") {
@@ -50,13 +49,13 @@ fn part1() {
         }
     }
     println!("Part1: {}", result);
+    result
 }
-fn part2() {
+fn part2(file_path: &str) -> i32 {
     let mut result = 0;
     let mut path: String = "".to_owned();
     let mut filesystem: HashMap<String, i32> = HashMap::new();
-    //if let Ok(input) = std::fs::read_to_string("./input_sample") {
-    if let Ok(input) = std::fs::read_to_string("./input") {
+    if let Ok(input) = std::fs::read_to_string(file_path) {
         for command in input.lines() {
             // make filesystem
             if command.starts_with("$ cd") {
@@ -108,9 +107,26 @@ fn part2() {
         }
     }
     println!("Part2: {}", result);
+    result
 }
 
 fn main() {
-    part1();
-    part2();
+    part1(INPUT_FILE);
+    part2(INPUT_FILE);
+}
+const INPUT_FILE: &str = "./input";
+#[cfg(test)]
+mod tests {
+    const INPUT_TEST_FILE: &str = "./input_sample";
+    use crate::{part1, part2};
+
+    #[test]
+    fn part_1_sample_input() {
+        assert_eq!(part1(INPUT_TEST_FILE), 95437);
+    }
+
+    #[test]
+    fn part_2_sample_input() {
+        assert_eq!(part2(INPUT_TEST_FILE), 24933642);
+    }
 }

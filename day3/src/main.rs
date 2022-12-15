@@ -29,7 +29,7 @@ fn main() {
                 }
             }
         }
-        let groups: Vec<&str> = input.split("\n").collect();
+        let groups: Vec<&str> = input.split('\n').collect();
         //println!("{:?}", groups);
         for j in 0..=groups.len() {
             if j != 0 && j % 3 == 0 {

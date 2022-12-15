@@ -101,12 +101,6 @@ fn get_max_x(sensors: &Vec<RangedSensor>) -> i32 {
 fn get_min_x(sensors: &Vec<RangedSensor>) -> i32 {
     sensors.into_iter().map(|s| s.x - s.range).min().unwrap()
 }
-fn get_max_y(sensors: &Vec<RangedSensor>) -> i32 {
-    sensors.into_iter().map(|s| s.y + s.range).max().unwrap()
-}
-fn get_min_y(sensors: &Vec<RangedSensor>) -> i32 {
-    sensors.into_iter().map(|s| s.y - s.range).min().unwrap()
-}
 
 fn get_y_values(sensors: Vec<RangedSensor>, y: i32) -> Vec<char> {
     let x_max = get_max_x(&sensors);
@@ -115,17 +109,9 @@ fn get_y_values(sensors: Vec<RangedSensor>, y: i32) -> Vec<char> {
     for x in x_min..=x_max {
         let mut row_char: char = '.';
         for sensor in &sensors {
-            match sensor.get_map_char(x, y) {
-                'S' => {
-                    row_char = 'S';
-                    break;
-                }
-                '#' => {
-                    row_char = '#';
-                    break;
-                }
-                'B' => {
-                    row_char = 'B';
+            row_char = sensor.get_map_char(x, y);
+            match row_char {
+                'S' | '#' | 'B' => {
                     break;
                 }
                 _ => continue,
@@ -153,61 +139,128 @@ fn part1(file_path: &str, row_num: i32) -> i32 {
     return result;
 }
 
-fn find_beacon(sensors: Vec<RangedSensor>, search_radius: i32) -> (i32, i32) {
-    let mut empty = false;
-    let mut x_max = get_max_x(&sensors);
-    let mut x_min = get_min_x(&sensors);
-    let mut y_max = get_max_y(&sensors);
-    let mut y = get_min_y(&sensors);
-    if x_min < 0 {
-        x_min = 0;
+fn calculate_boundaries(sensors: Vec<RangedSensor>) -> Vec<(i32, i32)> {
+    let mut sensor_boundaries: Vec<(i32, i32)> = Vec::new();
+    for sensor in sensors {
+        //sensor borders
+        let left: (i32, i32) = (sensor.x - sensor.range, sensor.y);
+        let up: (i32, i32) = (sensor.x, sensor.y - sensor.range);
+        let right: (i32, i32) = (sensor.x + sensor.range, sensor.y);
+        let down: (i32, i32) = (sensor.x, sensor.y + sensor.range);
+        // walk other fields
+        sensor_boundaries.push(left);
+        let (mut x, mut y) = left;
+        while (x, y) != up {
+            x += 1;
+            y -= 1;
+            sensor_boundaries.push((x, y));
+        }
+        sensor_boundaries.push(up);
+        let (mut x, mut y) = up;
+        while (x, y) != right {
+            x += 1;
+            y += 1;
+            sensor_boundaries.push((x, y));
+        }
+        sensor_boundaries.push(right);
+        let (mut x, mut y) = right;
+        while (x, y) != down {
+            x -= 1;
+            y += 1;
+            sensor_boundaries.push((x, y));
+        }
+        sensor_boundaries.push(down);
+        let (mut x, mut y) = down;
+        while (x, y) != left {
+            x -= 1;
+            y -= 1;
+            sensor_boundaries.push((x, y));
+        }
     }
-    if x_max > search_radius {
-        x_max = search_radius;
-    }
-    if y < 0 {
-        y = 0;
-    }
-    if y_max > search_radius {
-        y_max = search_radius;
-    }
-    for x in x_min..=x_max {
-        while y <= y_max {
+    return sensor_boundaries;
+}
+
+fn find_hole(
+    sensor_boundaries: Vec<(i32, i32)>,
+    search_radius: i32,
+    sensors: Vec<RangedSensor>,
+) -> (i32, i32) {
+    for pos in &sensor_boundaries {
+        let x = pos.0 + 1;
+        let y = pos.1;
+        if x > 0 && y > 0 && x < search_radius && y < search_radius {
+            let mut empty = false;
             for sensor in &sensors {
                 if sensor.field_empty(x, y) {
                     empty = true;
-                    if sensor.y > y {
-                        y += (sensor.y - y) * 2;
-                    }
                     break;
                 }
             }
             if empty == false {
                 return (x, y);
             }
-            empty = false;
-            y += 1;
         }
-        y = 0;
-        println!("{:.5}%", ((x * 100) / search_radius) as f64);
+        let x = pos.0 - 1;
+        let y = pos.1;
+        if x > 0 && y > 0 && x < search_radius && y < search_radius {
+            let mut empty = false;
+            for sensor in &sensors {
+                if sensor.field_empty(x, y) {
+                    empty = true;
+                    break;
+                }
+            }
+            if empty == false {
+                return (x, y);
+            }
+        }
+        let x = pos.0;
+        let y = pos.1 - 1;
+        if x > 0 && y > 0 && x < search_radius && y < search_radius {
+            let mut empty = false;
+            for sensor in &sensors {
+                if sensor.field_empty(x, y) {
+                    empty = true;
+                    break;
+                }
+            }
+            if empty == false {
+                return (x, y);
+            }
+        }
+        let x = pos.0;
+        let y = pos.1 + 1;
+        if x > 0 && y > 0 && x < search_radius && y < search_radius {
+            let mut empty = false;
+            for sensor in &sensors {
+                if sensor.field_empty(x, y) {
+                    empty = true;
+                    break;
+                }
+            }
+            if empty == false {
+                return (x, y);
+            }
+        }
     }
-    return (search_radius, search_radius);
+    return (0, 0);
 }
 
-fn part2(file_path: &str, frequency: i32, search_radius: i32) -> i32 {
-    let mut result = 0;
+fn part2(file_path: &str, frequency: i32, search_radius: i32) -> u128 {
+    let mut result: u128 = 0;
     if let Ok(input) = std::fs::read_to_string(file_path) {
         let sensors = parse_sensors(input);
         let sensors = calculate_ranges(sensors);
-        let (x, y) = find_beacon(sensors, search_radius);
-        result = x * frequency + y;
+        let sensor_boundaries = calculate_boundaries(sensors.clone());
+        let (x, y) = find_hole(sensor_boundaries, search_radius, sensors);
+        result = x as u128 * frequency as u128 + y as u128;
     }
     println!("Part2: {}", result);
     return result;
 }
 
 fn main() {
-    //part1(INPUT_FILE, *ROW_NUM_PART1);
+    part1(INPUT_FILE, *ROW_NUM_PART1);
     part2(INPUT_FILE, *FREQUENCY_PART2, *SEARCH_RADIUS_PART2);
 }
 

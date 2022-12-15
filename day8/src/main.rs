@@ -3,7 +3,7 @@ use grid::*;
 fn part1(file_path: &str) -> usize {
     let mut result = 0;
     if let Ok(input) = std::fs::read_to_string(file_path) {
-        let row_length = &input.lines().nth(0).unwrap().len();
+        let row_length = &input.lines().next().unwrap().len();
         let mut values: Vec<u32> = Vec::new();
         for value in input.chars() {
             if value != '\n' {
@@ -62,7 +62,7 @@ fn part1(file_path: &str) -> usize {
 fn part2(file_path: &str) -> i32 {
     let mut result = 0;
     if let Ok(input) = std::fs::read_to_string(file_path) {
-        let row_length = &input.lines().nth(0).unwrap().len();
+        let row_length = &input.lines().next().unwrap().len();
         let mut values: Vec<u32> = Vec::new();
         for value in input.chars() {
             if value != '\n' {

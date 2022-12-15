@@ -3,9 +3,9 @@ fn main() {
     let mut calories_vector: Vec<i32> = vec![];
     //    if let Ok(input) = std::fs::read_to_string("./input_sample") {
     if let Ok(input) = std::fs::read_to_string("./input") {
-        let lines = input.split("\n");
+        let lines = input.split('\n');
         for line in lines {
-            if line != "" {
+            if !line.is_empty() {
                 let newcalories: i32 = line.parse().unwrap();
                 sum_calories += newcalories;
             } else {

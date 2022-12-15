@@ -14,7 +14,7 @@ fn part1(file_path: &str) -> String {
             let items: Vec<&str> = re.find_iter(line).map(|mat| mat.as_str().trim()).collect();
             let mut i = 1;
             for item in items {
-                if item == "" {
+                if item.is_empty() {
                     i += 1
                 } else {
                     let item = item.chars().nth(1).unwrap();
@@ -33,7 +33,7 @@ fn part1(file_path: &str) -> String {
         }
         for line in input.lines() {
             if line.starts_with("move") {
-                let mut command = line.split(" ");
+                let mut command = line.split(' ');
                 let (quantity, from, to) = (
                     command.nth(1).unwrap().parse::<i32>().unwrap(),
                     command.nth(1).unwrap().parse::<i32>().unwrap(),
@@ -76,7 +76,7 @@ fn part2(file_path: &str) -> String {
             let items: Vec<&str> = re.find_iter(line).map(|mat| mat.as_str().trim()).collect();
             let mut i = 1;
             for item in items {
-                if item == "" {
+                if item.is_empty() {
                     i += 1
                 } else {
                     let item = item.chars().nth(1).unwrap();
@@ -95,7 +95,7 @@ fn part2(file_path: &str) -> String {
         }
         for line in input.lines() {
             if line.starts_with("move") {
-                let mut command = line.split(" ");
+                let mut command = line.split(' ');
                 let (quantity, from, to) = (
                     command.nth(1).unwrap().parse::<i32>().unwrap(),
                     command.nth(1).unwrap().parse::<i32>().unwrap(),
